@@ -1,8 +1,0 @@
-mutation createGame {
-  createGame {
-    token
-    game {
-      code
-    }
-  }
-}
