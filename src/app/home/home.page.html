@@ -1,0 +1,35 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Tic Tac Toe
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Tic Tac Toe</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <div *ngIf="gameCode; else buttons">
+      <h1>{{ gameCode }}</h1>
+      <ion-button shape="round" color="danger" (click)="resetGameCode()">
+        Go back
+      </ion-button>
+    </div>
+    <ng-template #buttons>
+      <ion-button shape="round" (click)="createGame()">
+        Create a new game
+      </ion-button>
+      <ion-button
+        shape="round"
+        color="success"
+        (click)="presentExistingGameAlert()"
+        >Join an existing game</ion-button
+      >
+    </ng-template>
+  </div>
+</ion-content>

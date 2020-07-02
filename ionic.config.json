@@ -1,0 +1,7 @@
+{
+  "name": "Tic Tac Toe",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

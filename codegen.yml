@@ -1,0 +1,15 @@
+overwrite: true
+schema: 'http://localhost:8080/graphql'
+documents: 'src/**/*.gql'
+hooks:
+  afterAllFileWrite:
+    - yarn -s format
+generates:
+  src/generated/graphql.ts:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-apollo-angular'
+  ./graphql.schema.json:
+    plugins:
+      - 'introspection'
