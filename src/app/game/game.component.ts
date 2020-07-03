@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core'
+import { AlertController } from '@ionic/angular'
 import {
+  GameEndsGQL,
   MeGQL,
   NewMoveGQL,
   PerformMoveGQL,
@@ -24,9 +26,11 @@ export class GameComponent implements OnInit {
   isItMyTurn = false
 
   constructor(
+    private alertController: AlertController,
     private newMoveGQL: NewMoveGQL,
     private performMoveGQL: PerformMoveGQL,
     private meGQL: MeGQL,
+    private gameEndsGQL: GameEndsGQL,
   ) {}
 
   subscribeToNewMoves() {
@@ -57,6 +61,36 @@ export class GameComponent implements OnInit {
       this.isItMyTurn = this.me.playerType === PlayerType.X
     })
     this.subscribeToNewMoves()
+
+    this.gameEndsGQL.subscribe().subscribe(
+      async ({
+        data: {
+          gameEnds: {
+            moves: { length: moves },
+            playerType,
+          },
+        },
+      }) => {
+        const header =
+          playerType === this.me.playerType ? 'You won!' : 'You lost!'
+
+        const alert = await this.alertController.create({
+          header,
+          message: `Player ${playerType} won with ${moves} moves!`,
+          backdropDismiss: false,
+          buttons: [
+            {
+              text: 'OK',
+              handler() {
+                window.location.replace('/')
+              },
+            },
+          ],
+        })
+
+        await alert.present()
+      },
+    )
   }
 
   onMove(i: number, j: number, playerType: PlayerType) {

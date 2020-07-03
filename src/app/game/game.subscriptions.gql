@@ -12,3 +12,12 @@ subscription newMove {
     }
   }
 }
+
+subscription gameEnds {
+  gameEnds {
+    playerType
+    moves {
+      id
+    }
+  }
+}
