@@ -16,6 +16,7 @@ export function createApollo(httpLink: HttpLink) {
     uri: uri.replace('http', 'ws'),
     options: {
       reconnect: true,
+      lazy: true,
     },
   })
 
