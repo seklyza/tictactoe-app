@@ -1,0 +1,5 @@
+mutation performMove($i: Int!, $j: Int!) {
+  performMove(i: $i, j: $j) {
+    id
+  }
+}

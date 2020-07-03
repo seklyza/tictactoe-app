@@ -56,6 +56,8 @@ export class HomePage {
       } = await this.joinGameGQL.mutate({ code }).toPromise()
 
       localStorage.setItem('token', token)
+
+      this.router.navigateByUrl('/game')
     } catch (e) {
       if (e instanceof ApolloError) {
         if (e.graphQLErrors.length > 0) {

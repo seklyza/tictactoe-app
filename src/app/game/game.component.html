@@ -1,3 +1,22 @@
-<p>
-  game works!
-</p>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      <span *ngIf="isItMyTurn; else opponentsTurn">Your turn</span>
+      <ng-template #opponentsTurn>
+        <span>Opponent's turn</span>
+      </ng-template>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div id="container">
+    <table>
+      <tr *ngFor="let tr of board; let i = index">
+        <td *ngFor="let td of tr; let j = index" (click)="onClick(i, j)">
+          {{ td }}
+        </td>
+      </tr>
+    </table>
+  </div>
+</ion-content>

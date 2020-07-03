@@ -1,0 +1,14 @@
+subscription newMove {
+  newMove {
+    i
+    j
+    game {
+      currentTurn {
+        playerType
+      }
+    }
+    player {
+      playerType
+    }
+  }
+}
