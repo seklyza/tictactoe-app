@@ -62,21 +62,12 @@ export class GameComponent implements OnInit {
     })
     this.subscribeToNewMoves()
 
-    this.gameEndsGQL.subscribe().subscribe(
-      async ({
-        data: {
-          gameEnds: {
-            moves: { length: moves },
-            playerType,
-          },
-        },
-      }) => {
-        const header =
-          playerType === this.me.playerType ? 'You won!' : 'You lost!'
-
+    this.gameEndsGQL.subscribe().subscribe(async ({ data: { gameEnds } }) => {
+      console.log(gameEnds)
+      if (!gameEnds) {
         const alert = await this.alertController.create({
-          header,
-          message: `Player ${playerType} won with ${moves} moves!`,
+          header: 'Game over!',
+          message: "It's a tie!",
           backdropDismiss: false,
           buttons: [
             {
@@ -89,8 +80,34 @@ export class GameComponent implements OnInit {
         })
 
         await alert.present()
-      },
-    )
+
+        return
+      }
+
+      const {
+        moves: { length: moves },
+        playerType,
+      } = gameEnds
+
+      const header =
+        playerType === this.me.playerType ? 'You won!' : 'You lost!'
+
+      const alert = await this.alertController.create({
+        header,
+        message: `Player ${playerType} won with ${moves} moves!`,
+        backdropDismiss: false,
+        buttons: [
+          {
+            text: 'OK',
+            handler() {
+              window.location.replace('/')
+            },
+          },
+        ],
+      })
+
+      await alert.present()
+    })
   }
 
   onMove(i: number, j: number, playerType: PlayerType) {
