@@ -1,0 +1,6 @@
+subscription gameStarts {
+  gameStarts {
+    id
+    started
+  }
+}

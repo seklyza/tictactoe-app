@@ -1,8 +1,13 @@
 import { Component } from '@angular/core'
+import { Router } from '@angular/router'
 import { AlertController } from '@ionic/angular'
 import { ApolloError } from 'apollo-client'
 import { map } from 'rxjs/operators'
-import { CreateGameGQL, JoinGameGQL } from 'src/generated/graphql'
+import {
+  CreateGameGQL,
+  GameStartsGQL,
+  JoinGameGQL,
+} from 'src/generated/graphql'
 
 @Component({
   selector: 'app-home',
@@ -16,6 +21,8 @@ export class HomePage {
     private alertController: AlertController,
     private createGameGQL: CreateGameGQL,
     private joinGameGQL: JoinGameGQL,
+    private gameStartsGQL: GameStartsGQL,
+    private router: Router,
   ) {}
 
   resetGameCode() {
@@ -31,6 +38,13 @@ export class HomePage {
 
     this.gameCode = game.code
     localStorage.setItem('token', token)
+
+    const gameStartsSubscription = this.gameStartsGQL
+      .subscribe()
+      .subscribe(() => {
+        gameStartsSubscription.unsubscribe()
+        this.router.navigateByUrl('/game')
+      })
   }
 
   async joinGame(code: string) {
@@ -39,7 +53,6 @@ export class HomePage {
         data: {
           joinGame: { token },
         },
-        errors,
       } = await this.joinGameGQL.mutate({ code }).toPromise()
 
       localStorage.setItem('token', token)
