@@ -5,8 +5,9 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloLink, split } from 'apollo-link'
 import { WebSocketLink } from 'apollo-link-ws'
 import { getMainDefinition } from 'apollo-utilities'
+import { environment } from '../environments/environment'
 
-const uri = 'http://localhost:8080/graphql'
+const { uri } = environment
 export function createApollo(httpLink: HttpLink) {
   const http = httpLink.create({
     uri,
